@@ -2,28 +2,65 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.XR;
 
+
 public class GestureManager : MonoBehaviour
 {
+    [SerializeField] private Gesture startingGesture;
     [SerializeField] private Gesture[] gestures;
     [SerializeField] private float cooldownGestures;
 
+    private enum EGestureState
+    {
+        Idle,
+        StartingGesture,
+        WaitingForStartingGesture,
+        Casting,
+        Cooldown,
+    }
+    private EGestureState currentState = EGestureState.Idle;
+
     private bool isCasting;
+    private bool hasCastedStartingGesture = false;
+    private bool hasCastedGesture = false;
     public bool IsCasting => isCasting;
     void Start()
     {
-        
+        startingGesture.Cast.AddListener(IsStartingGestureCasted);
+
+        foreach(Gesture gesture in gestures)
+        {
+            gesture.Cast.AddListener(IsGestureCasted);
+        }
     }
 
     void Update()
     {
+        switch (currentState)
+        {
+            case EGestureState.Idle:
+                IdleState();
+                break;
+            case EGestureState.StartingGesture:
+                StartingGesture();
+                break;
+            case EGestureState.WaitingForStartingGesture:
+                WaitForStartingGestureToComplete();
+                break;
+            case EGestureState.Casting:
+                Casting();
+                break;
+            case EGestureState.Cooldown:
+                Cooldown();
+                break;
+        }
+    }
+
+    #region States
+    void IdleState()
+    {
         if (IsRTPressed() && IsLTPressed())
         {
-            if (isCasting) return;
-            foreach (Gesture gesture in gestures)
-            {
-                gesture.StartCasting();
-            }
-            isCasting = true;
+            currentState = EGestureState.StartingGesture;
         }
         else
         {
@@ -33,9 +70,51 @@ public class GestureManager : MonoBehaviour
             {
                 gesture.StopCasting();
             }
+            hasCastedGesture = false;
+            hasCastedStartingGesture = false;
             isCasting = false;
         }
     }
+    void StartingGesture()
+    {
+        startingGesture.StartCasting();
+        currentState = EGestureState.WaitingForStartingGesture;
+    }
+    void WaitForStartingGestureToComplete()
+    {
+        if (hasCastedStartingGesture)
+        {
+            currentState = EGestureState.Casting;
+        }
+        else if (!IsRTPressed() || !IsLTPressed())
+        {
+            currentState = EGestureState.Idle;
+        }
+    }
+    void Casting()
+    {
+        if (hasCastedGesture) currentState = EGestureState.Cooldown;
+
+        if (isCasting) return;
+
+        foreach (Gesture gesture in gestures)
+        {
+            gesture.StartCasting();
+        }
+        isCasting = true;
+    }
+    float cooldownTimer = 0f;
+    public void Cooldown()
+    {
+        cooldownTimer += Time.deltaTime;
+        if (cooldownTimer >= cooldownGestures)
+        {
+            cooldownTimer = 0f;
+            currentState = EGestureState.Idle;
+        }
+    }
+    #endregion
+    #region Input
     public bool IsRTPressed()
     {
         InputDevice rightHand = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
@@ -45,7 +124,6 @@ public class GestureManager : MonoBehaviour
         }
         return false;
     }
-
     public bool IsLTPressed()
     {
         InputDevice leftHand = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
@@ -55,4 +133,14 @@ public class GestureManager : MonoBehaviour
         }
         return false;
     }
+    #endregion
+    public void IsStartingGestureCasted()
+    {
+        hasCastedStartingGesture = true;
+    }
+    public void IsGestureCasted()
+    {
+        hasCastedGesture = true;
+    }
 }
+ 

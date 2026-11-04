@@ -1,20 +1,32 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SocialPlatforms;
 
 public abstract class Gesture : MonoBehaviour
 {
+    [SerializeField] protected string gestureName;
     [SerializeField] protected GestureCollider []rightColliders;
     [SerializeField] protected GestureCollider []leftColliders;
 
     [SerializeField] protected float distanceToBodyZ;
     [SerializeField] protected float distanceFromHeadY;
+    [Header("Distance Percentages")]
+    [Range(0f, 1f)]
+    [SerializeField] protected float porcentHandDistanceRight;
+    [Range(0f, 1f)]
+    [SerializeField] protected float porcentHandDistanceLeft;
 
     protected int rightIndex = 0;
     protected int leftIndex = 0;
 
     protected bool isBeingCasted;
+    protected bool hasCasted;
 
-    UnityEvent Cast;
+    public UnityEvent Cast;
+
+    public float LeftHandDistancePercentage => porcentHandDistanceLeft;
+    public float RightHandDistancePercentage => porcentHandDistanceRight;
     private void Start()
     {
         InitArray(rightColliders, GestureCollider.EHandType.Right);
@@ -121,5 +133,7 @@ public abstract class Gesture : MonoBehaviour
         }
     }
 
-    protected abstract void OnGestureSuccess();
+    protected virtual void OnGestureSuccess() {
+        Debug.Log($"Gesture {gestureName} completed successfully!");
+    }
 }
