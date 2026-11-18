@@ -6,6 +6,7 @@ public class RunScript : MonoBehaviour
     [SerializeField] private CharacterController body;
     [SerializeField] private GameObject leftHand;
     [SerializeField] private GameObject rightHand;
+    [SerializeField] private SpeedParticleScript particleScript;
     private Camera mainCamera;
     [SerializeField] private float speed = 0f;
     [SerializeField] private float maxSpeed = 10f;
@@ -71,6 +72,7 @@ public class RunScript : MonoBehaviour
                 0f,
                 deceleration * Time.deltaTime
             );
+            particleScript.StopShowingParticles();
         }
 
         body.Move(moveDirection * speed * Time.deltaTime);
@@ -100,15 +102,19 @@ public class RunScript : MonoBehaviour
         if (rightDist > sprintDistance || leftDist > sprintDistance)
         {
             acceleration = sprintSpeed;
+            particleScript.FastSpeedParticles();
         }
         else if (rightDist > runningDistance || leftDist > runningDistance)
         {
             acceleration = runningSpeed;
+            particleScript.MidSpeedParticles();
         }
         else
         {
             acceleration = walkingSpeed;
+            particleScript.WalkSpeedParticles();
         }
         return rightMoving || leftMoving;
+
     }
 }

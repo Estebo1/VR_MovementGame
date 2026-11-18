@@ -61,6 +61,7 @@ public class GestureManager : MonoBehaviour
         if (IsRTPressed() && IsLTPressed())
         {
             currentState = EGestureState.StartingGesture;
+            Debug.LogWarning("Pressed Start");
         }
         else
         {
@@ -137,6 +138,7 @@ public class GestureManager : MonoBehaviour
     public void IsStartingGestureCasted()
     {
         hasCastedStartingGesture = true;
+        Debug.LogWarning("StartCasting");
     }
     public void IsGestureCasted()
     {

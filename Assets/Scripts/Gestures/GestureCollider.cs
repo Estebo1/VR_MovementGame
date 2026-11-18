@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
 public class GestureCollider : MonoBehaviour
 {
     private Gesture ownerGesture;

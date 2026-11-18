@@ -1,0 +1,172 @@
+{
+    "fileName": "Unity UI Toolkit Connector (Community)",
+    "tokens": [],
+    "screens": [
+        {
+            "assetName": "MainMenu",
+            "rootNodeId": "14:365",
+            "contentHash": "9216d957f01a8754",
+            "generated": [
+                "images/img-1t30sm7us3ohb-880.png",
+                "images/img-10flpxb1wt75ka-398.png",
+                "images/img-a4jhpe1vpfmx0-149.png",
+                "images/img-1bxc916u3am8t-880.png",
+                "MainMenu.uss",
+                "MainMenu.uxml"
+            ],
+            "tokens": [],
+            "nodes": [
+                {
+                    "figmaNodeId": "14:365",
+                    "cssClass": "",
+                    "styleClass": "",
+                    "doc": "MainMenu",
+                    "path": "1",
+                    "tag": "VisualElement",
+                    "classes": "",
+                    "props": [
+                        {
+                            "k": "width",
+                            "v": "1920px"
+                        },
+                        {
+                            "k": "height",
+                            "v": "1080px"
+                        },
+                        {
+                            "k": "background-color",
+                            "v": "#000"
+                        },
+                        {
+                            "k": "flex-shrink",
+                            "v": "0"
+                        }
+                    ]
+                },
+                {
+                    "figmaNodeId": "21:529",
+                    "cssClass": "",
+                    "styleClass": "button-primary-medium",
+                    "doc": "MainMenu",
+                    "path": "1/1",
+                    "tag": "Button",
+                    "classes": "button-primary-medium unity-button",
+                    "props": [
+                        {
+                            "k": "display",
+                            "v": "flex"
+                        },
+                        {
+                            "k": "padding-top",
+                            "v": "12px"
+                        },
+                        {
+                            "k": "padding-right",
+                            "v": "12px"
+                        },
+                        {
+                            "k": "padding-bottom",
+                            "v": "12px"
+                        },
+                        {
+                            "k": "padding-left",
+                            "v": "12px"
+                        },
+                        {
+                            "k": "justify-content",
+                            "v": "center"
+                        },
+                        {
+                            "k": "align-items",
+                            "v": "center"
+                        },
+                        {
+                            "k": "border-radius",
+                            "v": "8px"
+                        },
+                        {
+                            "k": "border-width",
+                            "v": "1px"
+                        },
+                        {
+                            "k": "border-color",
+                            "v": "#F5F5F5"
+                        },
+                        {
+                            "k": "background-color",
+                            "v": "#D9D9D9"
+                        },
+                        {
+                            "k": "flex-direction",
+                            "v": "row"
+                        },
+                        {
+                            "k": "color",
+                            "v": "#1E1E1E"
+                        },
+                        {
+                            "k": "-unity-font-definition",
+                            "v": "url(\"project://database/Assets/Fonts/Inter-Italic-VariableFont_opsz,wght.ttf?fileID=12800000&guid=086f396d22f78874593b3982c9eafda6&type=3#Inter-Italic-VariableFont_opsz,wght\")"
+                        },
+                        {
+                            "k": "font-size",
+                            "v": "16px"
+                        },
+                        {
+                            "k": "white-space",
+                            "v": "nowrap"
+                        },
+                        {
+                            "k": "position",
+                            "v": "absolute"
+                        },
+                        {
+                            "k": "left",
+                            "v": "64px"
+                        },
+                        {
+                            "k": "top",
+                            "v": "618px"
+                        }
+                    ]
+                }
+            ],
+            "components": [],
+            "states": [
+                {
+                    "className": "button-primary-medium",
+                    "pseudo": ":disabled",
+                    "figmaNodeId": "21:459",
+                    "props": [
+                        {
+                            "k": "border-color",
+                            "v": "#B3B3B3"
+                        },
+                        {
+                            "k": "color",
+                            "v": "#B3B3B3"
+                        }
+                    ],
+                    "doc": "MainMenu"
+                }
+            ],
+            "templateNames": [],
+            "classNames": [
+                {
+                    "key": "15341d9333025b7bc85ff148cf9212127efa498c",
+                    "name": "button-primary-medium"
+                },
+                {
+                    "key": "79c33e11a9de95c5af93a64393c6116fd5054f39",
+                    "name": "star"
+                },
+                {
+                    "key": "093fa17e40b0a85bc10ba8232abc683d83218fa0",
+                    "name": "x"
+                }
+            ]
+        }
+    ],
+    "matchedMappings": [],
+    "foreign": []
+}
