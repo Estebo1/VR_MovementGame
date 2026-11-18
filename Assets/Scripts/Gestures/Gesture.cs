@@ -27,7 +27,7 @@ public abstract class Gesture : MonoBehaviour
 
     public float LeftHandDistancePercentage => porcentHandDistanceLeft;
     public float RightHandDistancePercentage => porcentHandDistanceRight;
-    private void Start()
+    protected void Start()
     {
         InitArray(rightColliders, GestureCollider.EHandType.Right);
         InitArray(leftColliders, GestureCollider.EHandType.Left);
@@ -71,17 +71,21 @@ public abstract class Gesture : MonoBehaviour
 
         CheckGestureCompletion();
     }
-    private void NextCollider(GestureCollider[] colliders, ref int currentIndex, GestureCollider completedNode)
+    private void NextCollider(GestureCollider[] colliders,ref int currentIndex,GestureCollider completedNode)
     {
-        if (colliders == null || currentIndex >= colliders.Length) return;
+        if (colliders == null || currentIndex >= colliders.Length)
+            return;
 
         if (colliders[currentIndex] == completedNode)
         {
+            completedNode.DeactivateNode();
+
             currentIndex++;
 
-            if (currentIndex < colliders.Length)
+            if (currentIndex < colliders.Length &&
+                colliders[currentIndex] != null)
             {
-                colliders[currentIndex].isActive = true;
+                colliders[currentIndex].ActivateNode();
             }
         }
         else
@@ -103,34 +107,44 @@ public abstract class Gesture : MonoBehaviour
     }
     public void StopCasting()
     {
-        if (!isBeingCasted) return;
-
         isBeingCasted = false;
+
         rightIndex = 0;
         leftIndex = 0;
-        foreach(GestureCollider col in rightColliders)
+
+        if (rightColliders != null)
         {
-            if (col != null) col.ResetNode();
+            foreach (GestureCollider col in rightColliders)
+            {
+                if (col != null)
+                    col.DeactivateNode();
+            }
         }
-        foreach(GestureCollider col in leftColliders)
+
+        if (leftColliders != null)
         {
-            if (col != null) col.ResetNode();
+            foreach (GestureCollider col in leftColliders)
+            {
+                if (col != null)
+                    col.DeactivateNode();
+            }
         }
     }
     private void ResetSequence(GestureCollider[] colliders, ref int index)
     {
         index = 0;
-        if (colliders == null) return;
+
+        if (colliders == null || colliders.Length == 0)
+            return;
 
         foreach (var col in colliders)
         {
-            if (col != null) col.ResetNode();
+            if (col != null)
+                col.DeactivateNode();
         }
 
-        if (colliders.Length > 0 && colliders[0] != null)
-        {
-            colliders[0].isActive = true;
-        }
+        if (colliders[0] != null)
+            colliders[0].ActivateNode();
     }
 
     protected virtual void OnGestureSuccess() {

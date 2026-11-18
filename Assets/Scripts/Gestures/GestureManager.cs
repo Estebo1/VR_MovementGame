@@ -67,6 +67,7 @@ public class GestureManager : MonoBehaviour
         {
             if (!isCasting) return;
 
+            startingGesture.StopCasting();
             foreach (Gesture gesture in gestures)
             {
                 gesture.StopCasting();
@@ -89,12 +90,26 @@ public class GestureManager : MonoBehaviour
         }
         else if (!IsRTPressed() || !IsLTPressed())
         {
+            startingGesture.StopCasting();
             currentState = EGestureState.Idle;
         }
     }
     void Casting()
     {
-        if (hasCastedGesture) currentState = EGestureState.Cooldown;
+        if (hasCastedGesture)
+        {
+            foreach (Gesture gesture in gestures)
+            {
+                gesture.StopCasting();
+            }
+            currentState = EGestureState.Cooldown;
+            return;
+        }
+        if (!IsRTPressed() || !IsLTPressed())
+        {
+            startingGesture.StopCasting();
+            currentState = EGestureState.Idle;
+        }
 
         if (isCasting) return;
 
@@ -104,6 +119,7 @@ public class GestureManager : MonoBehaviour
         }
         isCasting = true;
     }
+
     float cooldownTimer = 0f;
     public void Cooldown()
     {
@@ -111,9 +127,14 @@ public class GestureManager : MonoBehaviour
         if (cooldownTimer >= cooldownGestures)
         {
             cooldownTimer = 0f;
+            startingGesture.StopCasting();
+            hasCastedStartingGesture = false;
+            hasCastedGesture = false;
+            isCasting = false;
             currentState = EGestureState.Idle;
         }
     }
+
     #endregion
     #region Input
     public bool IsRTPressed()
